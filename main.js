@@ -1,51 +1,58 @@
-function displayQuote(response) {
+function displayGuide(response) {
     new Typewriter("#quote", {
-        strings: response.data.answer,
+        strings: response.data.choices[0].text,
         autoStart: true,
         delay: 60,
         cursor: "",
     });
 }
 
-function generateQuote(event) {
+function generateGuide(event) {
     event.preventDefault();
 
     let instructionsInput = document.querySelector('#user-instructions');
-    let apiKey = "57t510363ca64d76cf8d437ao0eea1eb";
+    let apiKey = "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";  
 
     let context =
-        "You are a book quote expert and you love to get inspired by your favorite book quotes. Your mission is to generate a quote from any book in basic HTML. Make sure to follow the User instructions. Make sure to always specify the book and the author in the end.";
-    let prompt = `User instructions are: Generate a book quote about ${instructionsInput.value}`;
-    let apiUrl = `https://api.shecodes.io/ai/v1/generate?prompt=${prompt}&context=${context}&key=${apiKey}`;
+        "You are an AI accessory guide and you love to provide tips on how to wear jewelry and accessories. Your mission is to generate a guide based on user instructions. Make sure to follow the user instructions.";
+    let prompt = `User instructions are: Provide tips on how to wear ${instructionsInput.value}`;
+    
+    // Use the correct OpenAI GPT-3 API endpoint
+    let apiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
 
     let quoteElement = document.querySelector("#quote");
 
-    quoteElement.innerHTML = `<div class="generating">⌛ Generating a book quote about ${instructionsInput.value}</div>`;
+    quoteElement.innerHTML = `<div class="generating">⌛ Generating tips on how to wear ${instructionsInput.value}</div>`;
 
-    axios.get(apiUrl).then(displayQuote);
+    axios.post(apiUrl, {
+        prompt: prompt,
+        max_tokens: 200,
+    }, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+        },
+    }).then(displayGuide);
 }
 
-function displayMyQuote() {
-    let quote = `
-        IT'S TIME
+function displayAccessoryTips() {
+    let tips = `
+        Tip 1: Mix and match different types of jewelry for a stylish look.
         <br />
-        That one decision you are too afraid to make
+        Tip 2: Consider your outfit's neckline when choosing necklaces.
         <br/>
-        could be the very thing that sets you free
+        Tip 3: Stack bracelets or bangles for a trendy and layered effect.
         <br/>
-        in the best possible way.
-        <br/>
-        | Everything you will ever need by Charlotte Freeman
+        Tip 4: Coordinate your accessories with the occasion and your personal style.
     `;
 
     new Typewriter("#quote", {
-        strings: quote,
+        strings: tips,
         autoStart: true,
         delay: 1,
     });
 }
 
-let bookQuoteElement = document.querySelector("#quote-generator-form");
-bookQuoteElement.addEventListener("submit", generateQuote);
-displayMyQuote();
-// displayMyQuote();
+let accessoryGuideElement = document.querySelector("#quote-generator-form");
+accessoryGuideElement.addEventListener("submit", generateGuide);
+displayAccessoryTips();
