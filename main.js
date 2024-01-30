@@ -11,7 +11,7 @@ function generateGuide(event) {
     event.preventDefault();
 
     let instructionsInput = document.querySelector('#user-instructions');
-    let apiKey = "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";  
+    let apiKey = "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";  
 
     let context =
         "You are an AI accessory guide and you love to provide tips on how to wear jewelry and accessories. Your mission is to generate a guide based on user instructions. Make sure to follow the user instructions.";
