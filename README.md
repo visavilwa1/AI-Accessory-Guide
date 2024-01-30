@@ -1,1 +1,1 @@
-# counter-app
+# counter-app AI-Quote-Generator
