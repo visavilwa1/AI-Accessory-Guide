@@ -16,8 +16,7 @@ function generateGuide(event) {
     let context =
         "You are an AI accessory guide and you love to provide tips on how to wear jewelry and accessories. Your mission is to generate a guide based on user instructions. Make sure to follow the user instructions.";
     let prompt = `User instructions are: Provide tips on how to wear ${instructionsInput.value}`;
-    
-    // Use the correct OpenAI GPT-3 API endpoint
+
     let apiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
 
     let quoteElement = document.querySelector("#quote");
