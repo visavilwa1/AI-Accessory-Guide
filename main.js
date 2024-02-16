@@ -11,27 +11,30 @@ function generateGuide(event) {
     event.preventDefault();
 
     let instructionsInput = document.querySelector('#user-instructions');
-    let apiKey = "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";  
-
+    let apiUrl = "/path";  // Replace with your actual API endpoint
     let context =
         "You are an AI accessory guide and you love to provide tips on how to wear jewelry and accessories. Your mission is to generate a guide based on user instructions. Make sure to follow the user instructions.";
     let prompt = `User instructions are: Provide tips on how to wear ${instructionsInput.value}`;
-
-    let apiUrl = "https://api.openai.com/v1/engines/davinci-codex/completions";
 
     let quoteElement = document.querySelector("#quote");
 
     quoteElement.innerHTML = `<div class="generating">⌛ Generating tips on how to wear ${instructionsInput.value}</div>`;
 
-    axios.post(apiUrl, {
-        prompt: prompt,
-        max_tokens: 200,
-    }, {
+    fetch(apiUrl, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`,
         },
-    }).then(displayGuide);
+        body: JSON.stringify({ your: 'object data' }),  // Replace with your actual object data
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        console.log('Success:', data);
+        displayGuide(data);  // Assuming data structure is similar to Axios response
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
 
 function displayAccessoryTips() {
