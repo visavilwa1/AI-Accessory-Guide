@@ -1,60 +1,34 @@
-function displayGuide(response) {
-    new Typewriter("#quote", {
-        strings: response.data.choices[0].text,
-        autoStart: true,
-        delay: 60,
-        cursor: "",
-    });
-}
-
 function generateGuide(event) {
     event.preventDefault();
 
     let instructionsInput = document.querySelector('#user-instructions');
-    let apiUrl = "/path";  // Replace with your actual API endpoint
-    let context =
-        "You are an AI accessory guide and you love to provide tips on how to wear jewelry and accessories. Your mission is to generate a guide based on user instructions. Make sure to follow the user instructions.";
-    let prompt = `User instructions are: Provide tips on how to wear ${instructionsInput.value}`;
+    let tips = getStaticTips(instructionsInput.value);
 
     let quoteElement = document.querySelector("#quote");
 
     quoteElement.innerHTML = `<div class="generating">⌛ Generating tips on how to wear ${instructionsInput.value}</div>`;
 
-    fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ your: 'object data' }),  // Replace with your actual object data
-    })
-    .then((response) => response.json())
-    .then((data) => {
-        console.log('Success:', data);
-        displayGuide(data);  // Assuming data structure is similar to Axios response
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    setTimeout(() => {
+        quoteElement.innerHTML = ''; // Clear the "generating" message
+
+        // Display the tips using the Typewriter effect
+        new Typewriter("#quote", {
+            strings: tips,
+            autoStart: true,
+            delay: 60,
+            cursor: "",
+        });
+    }, 1000); // Simulating a delay for demonstration purposes
 }
 
-function displayAccessoryTips() {
-    let tips = `
-        Tip 1: Mix and match different types of jewelry for a stylish look.
-        <br />
-        Tip 2: Consider your outfit's neckline when choosing necklaces.
-        <br/>
-        Tip 3: Stack bracelets or bangles for a trendy and layered effect.
-        <br/>
-        Tip 4: Coordinate your accessories with the occasion and your personal style.
-    `;
-
-    new Typewriter("#quote", {
-        strings: tips,
-        autoStart: true,
-        delay: 1,
-    });
+function getStaticTips(instruction) {
+    // Replace this with your logic to fetch tips from your API
+    // For now, let's use static tips based on the instruction
+    return [
+        `Tip 1: Wear ${instruction} confidently.`,
+        `Tip 2: Consider the occasion when choosing ${instruction}.`,
+        `Tip 3: Mix and match ${instruction} for a stylish look.`,
+    ];
 }
 
-let accessoryGuideElement = document.querySelector("#quote-generator-form");
-accessoryGuideElement.addEventListener("submit", generateGuide);
-displayAccessoryTips();
+document.getElementById("quote-generator-form").addEventListener("submit", generateGuide);
