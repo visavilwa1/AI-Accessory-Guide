@@ -9,21 +9,19 @@ function generateGuide(event) {
     quoteElement.innerHTML = `<div class="generating">⌛ Generating tips on how to wear ${instructionsInput.value}</div>`;
 
     setTimeout(() => {
-        quoteElement.innerHTML = ''; // Clear the "generating" message
-
-        // Display the tips using the Typewriter effect
+        quoteElement.innerHTML = ''; 
+=
         new Typewriter("#quote", {
             strings: tips,
             autoStart: true,
             delay: 60,
             cursor: "",
         });
-    }, 1000); // Simulating a delay for demonstration purposes
+    }, 1000);
 }
 
 function getStaticTips(instruction) {
-    // Replace this with your logic to fetch tips from your API
-    // For now, let's use static tips based on the instruction
+    
     return [
         `Tip 1: Wear ${instruction} confidently.`,
         `Tip 2: Consider the occasion when choosing ${instruction}.`,
